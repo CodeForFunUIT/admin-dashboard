@@ -31,6 +31,7 @@ class ProductDetail {
     this.oCung,
     this.manHinh,
     this.trongLuong,
+    this.cpu,
   });
 
   String? id;
@@ -53,6 +54,7 @@ class ProductDetail {
   dynamic oCung;
   dynamic manHinh;
   dynamic trongLuong;
+  String? cpu;
 
   factory ProductDetail.fromJson(Map<String, dynamic> json) => ProductDetail(
         id: json["id"],
@@ -75,6 +77,7 @@ class ProductDetail {
         oCung: json["oCung"],
         manHinh: json["manHinh"],
         trongLuong: json["trongLuong"],
+        cpu: json["cpu"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -98,6 +101,7 @@ class ProductDetail {
         "oCung": oCung,
         "manHinh": manHinh,
         "trongLuong": trongLuong,
+        "cpu": cpu,
       };
 
   ProductDetail copyWith(ProductDetail detail) => ProductDetail(

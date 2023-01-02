@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web_dashbard/constants/controllers.dart';
+import 'package:flutter_web_dashbard/controllers/product_controller.dart';
 import 'package:flutter_web_dashbard/pages/overview/widgets/info_card_small.dart';
+import 'package:get/get.dart';
 
 class OverviewCardsSmallScreen extends StatelessWidget {
   const OverviewCardsSmallScreen({Key? key}) : super(key: key);
@@ -9,34 +12,37 @@ class OverviewCardsSmallScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return SizedBox(
       height: 400,
-      child: Column(
-        children: [
-          InfoCardSmall(
-            title: "Rides in Progress",
-            value: "7",
-            onTap: () {},
-            isActive: true,
-          ),
-          SizedBox(height: width / 64),
-          InfoCardSmall(
-            title: "Packages delivered",
-            value: "17",
-            onTap: () {},
-          ),
-          SizedBox(height: width / 64),
-          InfoCardSmall(
-            title: "Cancelled delivery",
-            value: "3",
-            onTap: () {},
-          ),
-          SizedBox(height: width / 64),
-          InfoCardSmall(
-            title: "Scheduled deliveries",
-            value: "3",
-            onTap: () {},
-          ),
-          SizedBox(height: width / 64),
-        ],
+      child: GetBuilder<ProductController>(
+        initState: (_) => productController.getOrder(),
+        builder: (controller) => Column(
+          children: [
+            InfoCardSmall(
+              title: "Order in Progress",
+              value: controller.lengthOrderProgress.toString(),
+              onTap: () {},
+              isActive: true,
+            ),
+            SizedBox(width: width / 64),
+            InfoCardSmall(
+              title: "Order delivered",
+              value: "0",
+              onTap: () {},
+            ),
+            SizedBox(width: width / 64),
+            InfoCardSmall(
+              title: "Order approve",
+              value: controller.lengthOrderApprove.toString(),
+              onTap: () {},
+            ),
+            SizedBox(width: width / 64),
+            InfoCardSmall(
+              title: "Order decline",
+              value: controller.lengthOrderDecline.toString(),
+              onTap: () {},
+            ),
+            SizedBox(height: width / 64),
+          ],
+        ),
       ),
     );
   }

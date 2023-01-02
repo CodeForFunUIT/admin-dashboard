@@ -1,19 +1,24 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_web_dashbard/constants/link.dart';
 import 'package:flutter_web_dashbard/models/admin.dart';
-import 'package:flutter_web_dashbard/widgets/custom_text.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
 
-  late Admin _admin;
-  Admin get admin => _admin;
-  set admin(Admin data) {
+  Admin? _admin;
+  Admin? get admin => _admin;
+  set admin(Admin? data) {
     _admin = data;
+    update();
+  }
+
+  final bool _isLogin = false;
+  bool get isLogin => _isLogin;
+  set isLogin(bool data) {
+    isLogin = data;
     update();
   }
 
@@ -28,18 +33,6 @@ class AuthController extends GetxController {
 
     if (response.statusCode == 200) {
       admin = Admin.fromJson(jsonDecode(response.body));
-    } else {
-      throw Get.dialog(
-        Dialog(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              CustomText(text: 'fail to login'),
-              SizedBox(height: 24),
-            ],
-          ),
-        ),
-      );
     }
   }
 }

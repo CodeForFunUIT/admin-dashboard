@@ -27,9 +27,9 @@ class MenuController extends GetxController {
       case overviewPageDisplayName:
         return _customIcon(Icons.trending_up, itemName);
       case productsPageDisplayName:
-        return _customIcon(Icons.drive_eta, itemName);
-      case clientsPageDisplayName:
-        return _customIcon(Icons.people_alt_outlined, itemName);
+        return _customIcon(Icons.computer_sharp, itemName);
+      case ordersPageDisplayName:
+        return _customIcon(Icons.shopping_cart, itemName);
       case authenticationPageDisplayName:
         return _customIcon(Icons.exit_to_app, itemName);
 

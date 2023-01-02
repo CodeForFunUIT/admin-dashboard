@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web_dashbard/constants/controllers.dart'
-    show menuController;
+import 'package:flutter_web_dashbard/constants/controllers.dart';
 import 'package:flutter_web_dashbard/helpers/responsiveness.dart';
+import 'package:flutter_web_dashbard/pages/products/widgets/product_table.dart';
 import 'package:flutter_web_dashbard/widgets/custom_text.dart';
 import 'package:get/get.dart';
 
-class ClientsPage extends StatelessWidget {
-  const ClientsPage({Key? key}) : super(key: key);
+class ProductsPage extends StatelessWidget {
+  const ProductsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,11 @@ class ClientsPage extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
+        const SizedBox(height: 28),
+        const Expanded(
+          child: ProductTable(),
+        ),
       ],
     );
   }

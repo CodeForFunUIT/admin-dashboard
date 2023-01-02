@@ -7,7 +7,7 @@ class TextFieldCustom extends StatelessWidget {
   final String? text;
   final String? label;
   final String? hintText;
-  final String? titleText;
+  final String titleText;
   final void Function(String data)? callBack;
   const TextFieldCustom({
     super.key,
@@ -15,7 +15,7 @@ class TextFieldCustom extends StatelessWidget {
     this.text,
     this.label,
     this.hintText,
-    this.titleText,
+    required this.titleText,
     this.callBack,
   });
 

@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter_web_dashbard/constants/link.dart';
+import 'package:flutter_web_dashbard/models/order.dart';
 import 'package:flutter_web_dashbard/models/product.dart';
 import 'package:flutter_web_dashbard/models/productDetail.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 
 class ProductController extends GetxController {
   static ProductController instance = Get.find();
@@ -19,6 +19,20 @@ class ProductController extends GetxController {
     }
     update();
   }
+
+  List<Order> _orders = [];
+  List<Order> get orders => _orders;
+  set orders(List<Order> data) {
+    _orders = [...data];
+    update();
+  }
+
+  int get lengthOrderProgress =>
+      _orders.where((e) => e.status == 'pending').length;
+  int get lengthOrderApprove =>
+      _orders.where((e) => e.status == 'approve').length;
+  int get lengthOrderDecline =>
+      _orders.where((e) => e.status == 'decline').length;
 
   late ProductDetail _detail;
   ProductDetail get detail => _detail;
@@ -64,6 +78,43 @@ class ProductController extends GetxController {
           .map((e) => Product.fromJson(e))
           .toList();
       // this.list = [...list];
+    } else {
+      throw Exception('Failed to load Product');
+    }
+  }
+
+  Future<void> getOrder() async {
+    final http.Response response = await http.post(Uri.parse(Link.getOrder));
+
+    if (response.statusCode == 200) {
+      orders = (jsonDecode(response.body) as List)
+          .map((e) => Order.fromJson(e))
+          .toList();
+    } else {
+      throw Exception('Failed to load Product');
+    }
+  }
+
+  Future<void> updateOrder({
+    required Order order,
+    bool isApprove = true,
+  }) async {
+    final body = {
+      "id": int.parse(order.id!),
+      "idUser": int.parse(order.idUser!),
+      "price": order.price,
+      "status": isApprove ? "approve" : "decline",
+      "date": order.date,
+    };
+    final http.Response response = await http.post(
+      Uri.parse(Link.updateOrder),
+      body: jsonEncode(body),
+    );
+
+    if (response.statusCode == 200) {
+      orders = (jsonDecode(response.body) as List)
+          .map((e) => Order.fromJson(e))
+          .toList();
     } else {
       throw Exception('Failed to load Product');
     }
@@ -115,32 +166,52 @@ class ProductController extends GetxController {
       "POST",
       Uri.parse(getLink(idProductType: idProductType)),
     );
+
     request.fields['idProductType'] = idProductType.toString();
     request.fields['stock'] = detail.stock!;
     request.fields['filename'] = getFileName(idProductType: idProductType);
-    request.fields['idTradeMark'] = idTradeMark.toString();
     request.fields['price'] = detail.price!;
     request.fields['name'] = detail.name!;
+    request.fields['idTradeMark'] = idTradeMark.toString();
     request.fields['trademark'] = detail.trademark!;
-    request.fields['ram'] = detail.ram!;
-    request.fields['bus'] = detail.bus!;
-    request.fields['chuanRam'] = detail.chuanRam!;
 
-    request.files.add(
-      http.MultipartFile.fromBytes(
-        'image',
-        image!,
-        contentType: MediaType('application', 'json'),
-        filename: imageName,
-      ),
-    );
-    request.send().then((res) {
-      if (res.statusCode == 200) {
-        print("file upload success");
-      } else {
-        print('error');
-      }
-    });
+    if (idProductType == 2) {
+      request.fields['ram'] = detail.ram!;
+      request.fields['bus'] = detail.bus!;
+      request.fields['chuanRam'] = detail.chuanRam!;
+    } else if (idProductType == 1) {
+      request.fields['doHoa'] = detail.doHoa!;
+      request.fields['xungNhipCoBan'] = detail.xungNhipCoBan!;
+      request.fields['xungNhipToiDa'] = detail.xungNhipToiDa!;
+      request.fields['theHe'] = detail.theHe!;
+      request.fields['tienTrinh'] = detail.tienTrinh!;
+      request.fields['soNhan'] = detail.soNhan!;
+      request.fields['soLuong'] = detail.soLuong!;
+    } else if (idProductType == 6) {
+      request.fields['ramDetail'] = detail.ramDetail!;
+      request.fields['cpu'] = detail.cpu!;
+      request.fields['manHinh'] = detail.manHinh!;
+      request.fields['oCung'] = detail.oCung!;
+    }
+
+    // request.files.add(
+    //   http.MultipartFile.fromBytes(
+    //     'image',
+    //     image!,
+    //     contentType: MediaType('application', 'json'),
+    //     filename: imageName,
+    //   ),
+    // );
+
+    print(request);
+
+    // request.send().then((res) {
+    //   if (res.statusCode == 200) {
+    //     print("file upload success");
+    //   } else {
+    //     print('error');
+    //   }
+    // });
   }
 
   Future<void> updateProduct(

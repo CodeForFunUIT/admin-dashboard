@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web_dashbard/constants/style.dart';
+import 'package:flutter_web_dashbard/constants/controllers.dart';
 import 'package:flutter_web_dashbard/models/productDetail.dart';
 import 'package:flutter_web_dashbard/widgets/custom_text.dart';
+import 'package:flutter_web_dashbard/widgets/loading.dart';
 import 'package:flutter_web_dashbard/widgets/text_field.dart';
 import 'package:get/get.dart';
 
@@ -18,14 +19,16 @@ enum ProductType {
 
 class DialogForm extends StatelessWidget {
   static const double height = 8;
-  static const double width = 8;
+  static const double width = 16;
 
   final int idProductType;
+  final String idProduct;
   final ProductDetail model;
   final int idTradeMark;
 
   const DialogForm({
     super.key,
+    required this.idProduct,
     required this.model,
     required this.idProductType,
     required this.idTradeMark,
@@ -35,17 +38,26 @@ class DialogForm extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (idProductType) {
       case 1:
-        return FormCpu(detail: model);
+        return FormCpu(
+          detail: model,
+          idProduct: idProduct,
+          idTradeMark: idTradeMark,
+          idProductType: idProductType,
+        );
       case 2:
         return FormRam(
+          idProduct: idProduct,
           detail: model,
           idTradeMark: idTradeMark,
           idProductType: idProductType,
         );
       case 3:
-        return FormOCung(detail: model);
+      // return FormOCung(detail: model);
       case 4:
-        return FormLaptop(detail: model);
+        return FormLaptop(
+          detail: model,
+          idProduct: idProduct,
+        );
       default:
         return const Center(child: Text('error'));
     }
@@ -56,9 +68,11 @@ class FormRam extends StatelessWidget {
   final ProductDetail detail;
   final int idProductType;
   final int idTradeMark;
+  final String idProduct;
 
   const FormRam({
     super.key,
+    required this.idProduct,
     required this.detail,
     required this.idProductType,
     required this.idTradeMark,
@@ -85,20 +99,42 @@ class FormRam extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextFieldCustom(
-                    text: detail.id,
+                    text: idProduct,
                     isId: true,
+                    titleText: 'Mã sản phẩm',
                   ),
                 ),
                 const SizedBox(width: DialogForm.width),
-                Expanded(child: TextFieldCustom(text: detail.ram)),
+                Expanded(
+                  child: TextFieldCustom(
+                    text: detail.ram,
+                    titleText: 'Ram (GB)',
+                    hintText: 'Nhập Ram (BG)',
+                    label: 'ram (GB)',
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: DialogForm.height),
             Row(
               children: [
-                Expanded(child: TextFieldCustom(text: detail.chuanRam)),
+                Expanded(
+                  child: TextFieldCustom(
+                    text: detail.chuanRam,
+                    titleText: 'Chuẩn Ram',
+                    hintText: 'Nhập chuẩn ram',
+                    label: 'chuẩn ram',
+                  ),
+                ),
                 const SizedBox(width: DialogForm.width),
-                Expanded(child: TextFieldCustom(text: detail.bus)),
+                Expanded(
+                  child: TextFieldCustom(
+                    text: detail.bus,
+                    titleText: 'Bus Ram',
+                    hintText: 'Nhập bus ram',
+                    label: 'Bus ram',
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 200),
@@ -114,13 +150,13 @@ class FormRam extends StatelessWidget {
                       backgroundColor: Colors.blueAccent,
                     ),
                     onPressed: () async {
-                      // Loading.startLoading(context);
-                      // await productController.updateProduct(
-                      //   detail,
-                      //   idProductType,
-                      //   idTradeMark,
-                      // );
-                      // Loading.stopLoading();
+                      Loading.startLoading(context);
+                      await productController.updateProduct(
+                        detail,
+                        idProductType,
+                        idTradeMark,
+                      );
+                      Loading.stopLoading();
                     },
                     child: const CustomText(text: 'Edit'),
                   ),
@@ -136,117 +172,169 @@ class FormRam extends StatelessWidget {
 
 class FormCpu extends StatelessWidget {
   final ProductDetail detail;
+  final String idProduct;
+
+  final int idProductType;
+  final int idTradeMark;
   const FormCpu({
     super.key,
     required this.detail,
+    required this.idProduct,
+    required this.idProductType,
+    required this.idTradeMark,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: CustomText(
-          text: 'CPU',
-          color: blue,
-        ),
-      ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              TextFieldCustom(
-                text: detail.id,
-                isId: true,
-              ),
-              TextFieldCustom(text: detail.soNhan),
-            ],
-          ),
-          const SizedBox(height: DialogForm.height),
-          Row(
-            children: [
-              TextFieldCustom(text: detail.soLuong),
-              TextFieldCustom(text: detail.xungNhipCoBan),
-            ],
-          ),
-          const SizedBox(height: DialogForm.height),
-          Row(
-            children: [
-              TextFieldCustom(text: detail.xungNhipToiDa),
-              TextFieldCustom(text: detail.theHe),
-            ],
-          ),
-          const SizedBox(height: DialogForm.height),
-          Row(
-            children: [
-              TextFieldCustom(text: detail.tienTrinh),
-              TextFieldCustom(text: detail.doHoa),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class FormOCung extends StatelessWidget {
-  final ProductDetail detail;
-
-  const FormOCung({
-    super.key,
-    required this.detail,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: CustomText(
-          text: 'Laptop',
-          color: blue,
-        ),
-      ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: TextFieldCustom(
-                  text: detail.id,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.7,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                const Spacer(),
+                IconButton(
+                  onPressed: Get.back,
+                  icon: const Icon(Icons.close),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                TextFieldCustom(
+                  titleText: 'Mã sản phẩm',
+                  text: idProduct,
                   isId: true,
                 ),
-              ),
-              Expanded(child: TextFieldCustom(text: detail.ramDetail)),
-            ],
-          ),
-          const SizedBox(height: DialogForm.height),
-          Row(
-            children: [
-              TextFieldCustom(text: detail.xungNhipCoBan),
-              TextFieldCustom(text: detail.oCung),
-            ],
-          ),
-          const SizedBox(height: DialogForm.height),
-          Row(
-            children: [
-              TextFieldCustom(text: detail.manHinh),
-              TextFieldCustom(text: detail.trongLuong),
-            ],
-          ),
-        ],
+                TextFieldCustom(
+                  text: detail.soNhan,
+                  titleText: 'Số nhân',
+                  hintText: 'Nhập số nhân',
+                  label: 'Số nhân',
+                ),
+              ],
+            ),
+            const SizedBox(height: DialogForm.height),
+            Row(
+              children: [
+                TextFieldCustom(
+                  text: detail.soLuong,
+                  titleText: 'Số luồng',
+                  hintText: 'Nhập số luồng',
+                  label: 'Số luồng',
+                ),
+                TextFieldCustom(
+                  text: detail.xungNhipCoBan,
+                  titleText: 'Xung nhịp cơ bản',
+                  hintText: 'Nhập xung nhịp cơ bản',
+                  label: 'Xung nhịp cơ bản',
+                ),
+              ],
+            ),
+            const SizedBox(height: DialogForm.height),
+            Row(
+              children: [
+                TextFieldCustom(
+                  text: detail.xungNhipToiDa,
+                  titleText: 'Xung nhịp tốt đa',
+                  hintText: 'Nhập xung nhịp tối đa',
+                  label: 'Xung nhịp tối đa',
+                ),
+                TextFieldCustom(
+                  text: detail.theHe,
+                  titleText: 'Thế hệ',
+                  hintText: 'Nhập thế hệ',
+                  label: 'Thế hệ',
+                ),
+              ],
+            ),
+            const SizedBox(height: DialogForm.height),
+            Row(
+              children: [
+                TextFieldCustom(
+                  text: detail.tienTrinh,
+                  titleText: 'Tiến trình',
+                  hintText: 'Nhập tiến trình',
+                  label: 'Tiến trình',
+                ),
+                TextFieldCustom(
+                  text: detail.doHoa,
+                  titleText: 'Đồ họa',
+                  hintText: 'Nhập card đồ họa',
+                  label: 'Đồ họa',
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
+// class FormOCung extends StatelessWidget {
+//   final ProductDetail detail;
+
+//   const FormOCung({
+//     super.key,
+//     required this.detail,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         centerTitle: true,
+//         title: CustomText(
+//           text: 'Laptop',
+//           color: blue,
+//         ),
+//       ),
+//       body: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         crossAxisAlignment: CrossAxisAlignment.stretch,
+//         children: [
+//           Row(
+//             children: [
+//               Expanded(
+//                 child: TextFieldCustom(
+//                   text: detail.id,
+//                   isId: true,
+//                 ),
+//               ),
+//               Expanded(child: TextFieldCustom(text: detail.ramDetail)),
+//             ],
+//           ),
+//           const SizedBox(height: DialogForm.height),
+//           Row(
+//             children: [
+//               TextFieldCustom(text: detail.xungNhipCoBan),
+//               TextFieldCustom(text: detail.oCung),
+//             ],
+//           ),
+//           const SizedBox(height: DialogForm.height),
+//           Row(
+//             children: [
+//               TextFieldCustom(text: detail.manHinh),
+//               TextFieldCustom(text: detail.trongLuong),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class FormLaptop extends StatelessWidget {
   final ProductDetail detail;
+  final String idProduct;
 
   const FormLaptop({
     super.key,
+    required this.idProduct,
     required this.detail,
   });
 

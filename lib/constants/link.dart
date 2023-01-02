@@ -9,4 +9,6 @@ class Link {
   static const String addCpu = '$domain/source/admin/addCpu.php';
   static const String addLaptop = '$domain/source/admin/addLaptop.php';
   static const String login = '$domain/source/admin/login.php';
+  static const String getOrder = '$domain/source/getOrder.php';
+  static const String updateOrder = '$domain/source/admin/updateOrder.php';
 }

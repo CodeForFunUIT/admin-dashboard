@@ -71,7 +71,7 @@ class SideMenu extends StatelessWidget {
                         navigationController.navigateTo(item.route);
                       }
                     },
-                    isAddProd: item.name == 'Drivers',
+                    isAddProd: item.name == 'Products',
                   ),
                 )
                 .toList(),

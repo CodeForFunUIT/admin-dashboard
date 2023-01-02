@@ -93,6 +93,7 @@ class ProductTable extends StatelessWidget {
                                 Get.dialog(
                                   Dialog(
                                     child: DialogForm(
+                                      idProduct: controller.list[index].id!,
                                       model: controller.detail,
                                       idProductType: int.parse(
                                         controller.list[index].idProductType ??

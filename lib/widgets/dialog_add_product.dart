@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web_dashbard/constants/controllers.dart';
 import 'package:flutter_web_dashbard/constants/style.dart';
 import 'package:flutter_web_dashbard/models/product.dart';
 import 'package:flutter_web_dashbard/models/productDetail.dart';
@@ -69,8 +68,8 @@ class DialogFormAdd extends StatelessWidget {
         return FormCpu();
       case 2:
         return FormRam();
-      case 3:
-        return const FormHardDrive();
+      // case 3:
+      //   return const FormHardDrive();
       case 6:
         return FormLaptop();
       default:
@@ -185,58 +184,65 @@ class FormCpu extends StatelessWidget {
               ),
             ),
             const SizedBox(width: DialogFormAdd.width),
-            const TextFieldCustom(
+            TextFieldCustom(
               titleText: 'Đồ họa ',
               hintText: 'Nhập card đồ họa',
               label: 'Đồ họa',
+              callBack: (data) => detail.doHoa = data,
             ),
           ],
         ),
         const SizedBox(height: DialogFormAdd.height),
         Row(
-          children: const [
+          children: [
             TextFieldCustom(
               titleText: 'Xung nhịp cơ bản',
               hintText: 'Nhập xung nhịp cơ bản',
               label: 'Xung nhịp cơ bản',
+              callBack: (data) => detail.xungNhipCoBan = data,
             ),
-            SizedBox(width: DialogFormAdd.width),
+            const SizedBox(width: DialogFormAdd.width),
             TextFieldCustom(
               titleText: 'Xung nhịp tối đa',
               hintText: 'Nhập xung nhịp tối đa',
               label: 'Xung nhịp tối đa',
+              callBack: (data) => detail.xungNhipToiDa = data,
             ),
           ],
         ),
         const SizedBox(height: DialogFormAdd.height),
         Row(
-          children: const [
+          children: [
             TextFieldCustom(
               titleText: 'Thế hệ ',
               hintText: 'Nhập thế hệ',
               label: 'Thế hệ',
+              callBack: (data) => detail.theHe = data,
             ),
-            SizedBox(width: DialogFormAdd.width),
+            const SizedBox(width: DialogFormAdd.width),
             TextFieldCustom(
               titleText: 'Tiến trình',
               hintText: 'Nhập tiến trình',
               label: 'Tiến trình',
+              callBack: (data) => detail.tienTrinh = data,
             ),
           ],
         ),
         const SizedBox(height: DialogFormAdd.height),
         Row(
-          children: const [
+          children: [
             TextFieldCustom(
               titleText: 'Số nhân',
               hintText: 'Nhập số nhân',
               label: 'Số nhân',
+              callBack: (data) => detail.soNhan = data,
             ),
-            SizedBox(width: DialogFormAdd.width),
+            const SizedBox(width: DialogFormAdd.width),
             TextFieldCustom(
               titleText: 'Số luồng',
               hintText: 'Nhập số luồng',
               label: 'Số luồng',
+              callBack: (data) => detail.soLuong = data,
             ),
           ],
         ),
@@ -251,7 +257,7 @@ class FormCpu extends StatelessWidget {
           detail: detail,
           list: list,
           imageName: imageName,
-          idProductType: 2,
+          idProductType: 1,
           idTradeMark: idTrademark,
         ),
       ],
@@ -259,40 +265,40 @@ class FormCpu extends StatelessWidget {
   }
 }
 
-class FormHardDrive extends StatelessWidget {
-  const FormHardDrive({
-    super.key,
-  });
+// class FormHardDrive extends StatelessWidget {
+//   const FormHardDrive({
+//     super.key,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          children: const [
-            TextFieldCustom(),
-            TextFieldCustom(),
-          ],
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        Row(
-          children: const [
-            TextFieldCustom(),
-            TextFieldCustom(),
-          ],
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        Row(
-          children: const [
-            TextFieldCustom(),
-            TextFieldCustom(),
-          ],
-        ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       mainAxisSize: MainAxisSize.min,
+//       children: [
+//         Row(
+//           children: const [
+//             TextFieldCustom(titleText: ,),
+//             TextFieldCustom(),
+//           ],
+//         ),
+//         const SizedBox(height: DialogFormAdd.height),
+//         Row(
+//           children: const [
+//             TextFieldCustom(),
+//             TextFieldCustom(),
+//           ],
+//         ),
+//         const SizedBox(height: DialogFormAdd.height),
+//         Row(
+//           children: const [
+//             TextFieldCustom(),
+//             TextFieldCustom(),
+//           ],
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 class FormLaptop extends StatelessWidget {
   FormLaptop({super.key});
@@ -325,36 +331,40 @@ class FormLaptop extends StatelessWidget {
               ),
             ),
             const SizedBox(width: DialogFormAdd.width),
-            const TextFieldCustom(
+            TextFieldCustom(
               titleText: 'thông tin ram',
               hintText: 'Nhập thông tin ram',
               label: 'Ram',
-            ),
-          ],
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        Row(
-          children: const [
-            TextFieldCustom(
-              titleText: 'Card đồ họa',
-              hintText: 'Nhập card đồ họa',
-              label: 'Card đồ họa',
-            ),
-            SizedBox(width: DialogFormAdd.width),
-            TextFieldCustom(
-              titleText: 'Màn hình',
-              hintText: 'Nhập thông tin màn hình',
-              label: 'Màn hình',
+              callBack: (data) => detail.ramDetail = data,
             ),
           ],
         ),
         const SizedBox(height: DialogFormAdd.height),
         Row(
           children: [
-            const TextFieldCustom(
+            TextFieldCustom(
+              titleText: 'CPU',
+              hintText: 'Nhập CPU',
+              label: 'CPU',
+              callBack: (data) => detail.cpu = data,
+            ),
+            const SizedBox(width: DialogFormAdd.width),
+            TextFieldCustom(
+              titleText: 'Màn hình',
+              hintText: 'Nhập thông tin màn hình',
+              label: 'Màn hình',
+              callBack: (data) => detail.manHinh = data,
+            ),
+          ],
+        ),
+        const SizedBox(height: DialogFormAdd.height),
+        Row(
+          children: [
+            TextFieldCustom(
               titleText: 'Ổ cứng',
               hintText: 'Nhập ổ cứng',
               label: 'Ổ cứng',
+              callBack: (data) => detail.oCung = data,
             ),
             const SizedBox(width: DialogFormAdd.width),
             Expanded(
@@ -475,16 +485,25 @@ class ButtonAdd extends StatelessWidget {
                   child: Center(child: CircularProgressIndicator()),
                 ),
               );
-              await productController.addProduct(
-                detail: detail,
-                idProductType: idProductType,
-                idTradeMark: idTradeMark,
-                image: list,
-                imageName: imageName,
-              );
+              // Loading.startLoading(context);
+              print(detail);
+              print(idProductType);
+              print(idTradeMark);
+              print(list);
+              print(imageName);
+              // await productController.addProduct(
+              //   detail: detail,
+              //   idProductType: idProductType,
+              //   idTradeMark: idTradeMark,
+              //   image: list,
+              //   imageName: imageName,
+              // );
               Loading.stopLoading();
             },
-            child: const CustomText(text: 'Add'),
+            child: const CustomText(
+              text: 'Add',
+              color: Colors.white,
+            ),
           ),
         ),
       ],

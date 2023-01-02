@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web_dashbard/constants/controllers.dart';
 import 'package:flutter_web_dashbard/constants/style.dart';
 import 'package:flutter_web_dashbard/helpers/responsiveness.dart';
 import 'package:flutter_web_dashbard/widgets/custom_text.dart';
+import 'package:get/get.dart';
 
 AppBar topNavigationBar(
   BuildContext context,
@@ -45,7 +47,14 @@ AppBar topNavigationBar(
             child: Container(),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              final snackBar = GetSnackBar(
+                backgroundColor: Colors.red.withOpacity(.6),
+                message: "This feature haven't finish yet!",
+                duration: const Duration(seconds: 2),
+              );
+              Get.showSnackbar(snackBar);
+            },
             icon: Icon(
               Icons.settings,
               color: dark.withOpacity(.7),
@@ -54,7 +63,14 @@ AppBar topNavigationBar(
           Stack(
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  final snackBar = GetSnackBar(
+                    backgroundColor: Colors.red.withOpacity(.6),
+                    message: "This feature haven't finish yet!",
+                    duration: const Duration(seconds: 2),
+                  );
+                  Get.showSnackbar(snackBar);
+                },
                 icon: Icon(
                   Icons.notifications,
                   color: dark.withOpacity(.7),
@@ -86,7 +102,7 @@ AppBar topNavigationBar(
           ),
           const SizedBox(width: 24),
           CustomText(
-            text: "Santos Enoque",
+            text: authController.admin!.username,
             color: lightGrey,
           ),
           const SizedBox(width: 16),
