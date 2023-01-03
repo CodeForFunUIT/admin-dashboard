@@ -6,6 +6,7 @@ import 'package:flutter_web_dashbard/controllers/product_controller.dart';
 import 'package:flutter_web_dashbard/widgets/custom_text.dart';
 import 'package:flutter_web_dashbard/widgets/loading.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class OrderTable extends StatelessWidget {
   const OrderTable({super.key});
@@ -78,7 +79,10 @@ class OrderTable extends StatelessWidget {
                         CustomText(text: controller.orders[index].idUser),
                       ),
                       DataCell(
-                        CustomText(text: controller.orders[index].price),
+                        CustomText(
+                          text: double.parse(controller.orders[index].price!)
+                              .toVND(),
+                        ),
                       ),
                       DataCell(CustomText(text: controller.orders[index].date)),
                       DataCell(
@@ -97,7 +101,7 @@ class OrderTable extends StatelessWidget {
                           children: [
                             OutlinedButton(
                               onPressed: controller.orders[index].status ==
-                                          "approve" ||
+                                          "outDate" ||
                                       controller.orders[index].status ==
                                           "decline"
                                   ? null
@@ -105,21 +109,38 @@ class OrderTable extends StatelessWidget {
                                       Loading.startLoading(context);
                                       await controller.updateOrder(
                                         order: controller.orders[index],
+                                        status:
+                                            controller.orders[index].status ==
+                                                    "approve"
+                                                ? "outDate"
+                                                : "approve",
                                       );
                                       Loading.stopLoading();
 
                                       final snackBar = GetSnackBar(
                                         backgroundColor:
                                             Colors.green.withOpacity(.6),
-                                        message:
-                                            "Update status order to approve!",
+                                        messageText: Center(
+                                          child: CustomText(
+                                            text: controller
+                                                        .orders[index].status ==
+                                                    "approve"
+                                                ? "Update status order to outDate!"
+                                                : "Update status order to approve!",
+                                          ),
+                                        ),
                                         duration: const Duration(seconds: 2),
                                       );
                                       Get.showSnackbar(snackBar);
                                     },
                               style: OutlinedButton.styleFrom(
                                 side: BorderSide(
-                                  color: blue,
+                                  color: controller.orders[index].status ==
+                                              "outDate" ||
+                                          controller.orders[index].status ==
+                                              "decline"
+                                      ? Colors.grey
+                                      : blue,
                                 ),
                                 fixedSize: Size(
                                   MediaQuery.of(context).size.width * 0.08,
@@ -127,8 +148,18 @@ class OrderTable extends StatelessWidget {
                                 ),
                               ),
                               child: CustomText(
-                                text: 'Approve',
-                                color: blue,
+                                text: controller.orders[index].status ==
+                                            "pending" ||
+                                        controller.orders[index].status ==
+                                            "decline"
+                                    ? 'Approve'
+                                    : "Out Date",
+                                color: controller.orders[index].status ==
+                                            "outDate" ||
+                                        controller.orders[index].status ==
+                                            "decline"
+                                    ? Colors.grey
+                                    : blue,
                               ),
                             ),
                             const SizedBox(width: 4),
@@ -136,13 +167,15 @@ class OrderTable extends StatelessWidget {
                               onPressed: controller.orders[index].status ==
                                           "approve" ||
                                       controller.orders[index].status ==
-                                          "decline"
+                                          "decline" ||
+                                      controller.orders[index].status ==
+                                          "outDate"
                                   ? null
                                   : () async {
                                       Loading.startLoading(context);
                                       await controller.updateOrder(
                                         order: controller.orders[index],
-                                        isApprove: false,
+                                        status: "decline",
                                       );
                                       Loading.stopLoading();
 
@@ -176,5 +209,22 @@ class OrderTable extends StatelessWidget {
               ),
             ),
     );
+  }
+}
+
+extension FormatCurrencyExt on num {
+  String toVND({String locale = 'vi_VN', String symbol = '₫'}) {
+    return NumberFormat.currency(
+      locale: locale,
+      customPattern: '#,##0\u00a4',
+      symbol: symbol,
+    ).format(this);
+  }
+
+  String rutGonTien({String locale = 'vi_VN'}) {
+    if (this >= 1000000) {
+      return '${(this / 1000000).toStringAsFixed(0)}Tr';
+    }
+    return '${(this / 1000).toStringAsFixed(0)}K';
   }
 }

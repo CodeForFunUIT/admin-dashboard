@@ -1,41 +1,49 @@
 /// Bar chart example
 import 'package:charts_flutter_new/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'package:flutter_web_dashbard/controllers/product_controller.dart';
+import 'package:get/get.dart';
 
 class SimpleBarChart extends StatelessWidget {
-  final List<charts.Series<dynamic, String>> seriesList;
   final bool animate;
 
-  const SimpleBarChart(
-    this.seriesList, {
+  const SimpleBarChart({
     required this.animate,
     super.key,
   });
 
   /// Creates a [BarChart] with sample data and no transition.
-  factory SimpleBarChart.withSampleData() {
-    return SimpleBarChart(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: false,
-    );
-  }
+  // factory SimpleBarChart.withSampleData() {
+  //   return SimpleBarChart(
+  //     _createSampleData(controller),
+  //     // Disable animations for image tests.
+  //     animate: true,
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return charts.BarChart(
-      seriesList,
-      animate: animate,
+    return GetBuilder<ProductController>(
+      builder: (controller) => charts.BarChart(
+        _createSampleData(controller),
+        animate: animate,
+      ),
     );
   }
 
+  static String date(int preMonth) =>
+      '${DateTime(DateTime.now().year, DateTime.now().month - preMonth, DateTime.now().day)}'
+          .substring(0, 7);
+
   /// Create one series with sample hard coded data.
-  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
+  static List<charts.Series<OrdinalSales, String>> _createSampleData(
+    ProductController controller,
+  ) {
     final data = [
-      OrdinalSales('2014', 5),
-      OrdinalSales('2015', 25),
-      OrdinalSales('2016', 100),
-      OrdinalSales('2017', 75),
+      OrdinalSales(date(3), controller.salaryLast3Month),
+      OrdinalSales(date(2), controller.salaryLast2Month),
+      OrdinalSales(date(1), controller.salaryLastMonth),
+      OrdinalSales(date(0), controller.salaryThisMonth),
     ];
 
     return [

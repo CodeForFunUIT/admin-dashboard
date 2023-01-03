@@ -36,10 +36,10 @@ class RevenueSectionSmall extends StatelessWidget {
                   weight: FontWeight.bold,
                   color: lightGrey,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 600,
                   height: 200,
-                  child: SimpleBarChart.withSampleData(),
+                  child: SimpleBarChart(animate: true),
                 ),
               ],
             ),

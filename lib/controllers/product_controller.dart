@@ -33,6 +33,148 @@ class ProductController extends GetxController {
       _orders.where((e) => e.status == 'approve').length;
   int get lengthOrderDecline =>
       _orders.where((e) => e.status == 'decline').length;
+  int get lengthOrderOutDate =>
+      _orders.where((e) => e.status == 'outDate').length;
+
+  DateTime date(Order order) {
+    String day = order.date!.split('/').first;
+    String month = order.date!.split('/')[1];
+    String year = order.date!.split('/')[2];
+    return DateTime(int.parse(year), int.parse(month), int.parse(day));
+  }
+
+  int get salaryToday => _orders
+      .where(
+        (e) =>
+            int.parse(e.date!.split('/').first) == DateTime.now().day &&
+            e.status == "approve",
+      )
+      .fold(0, (pre, e) => pre + int.parse(e.price!));
+  int get salaryLast7Day => _orders
+      .where(
+        (e) =>
+            date(e).compareTo(
+                  DateTime.now().subtract(
+                    const Duration(days: 7),
+                  ),
+                ) >
+                0 &&
+            e.status == "approve",
+      )
+      .fold(0, (pre, e) => pre + int.parse(e.price!));
+
+  int get salaryThisMonth => _orders
+      .where(
+        (e) =>
+            date(e).compareTo(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month,
+                    1,
+                  ),
+                ) >=
+                0 &&
+            date(e).compareTo(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month + 1,
+                    1,
+                  ),
+                ) <
+                0 &&
+            e.status == "approve",
+      )
+      .fold(0, (pre, e) => pre + int.parse(e.price!));
+
+  int get salaryLastMonth => _orders
+      .where(
+        (e) =>
+            date(e).compareTo(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month - 1,
+                    1,
+                  ),
+                ) >=
+                0 &&
+            date(e).compareTo(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month,
+                    1,
+                  ),
+                ) <
+                0 &&
+            e.status == "approve",
+      )
+      .fold(0, (pre, e) => pre + int.parse(e.price!));
+  int get salaryLast2Month => _orders
+      .where(
+        (e) =>
+            date(e).compareTo(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month - 2,
+                    1,
+                  ),
+                ) >=
+                0 &&
+            date(e).compareTo(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month - 1,
+                    1,
+                  ),
+                ) <
+                0 &&
+            e.status == "approve",
+      )
+      .fold(0, (pre, e) => pre + int.parse(e.price!));
+  int get salaryLast3Month => _orders
+      .where(
+        (e) =>
+            date(e).compareTo(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month - 3,
+                    1,
+                  ),
+                ) >=
+                0 &&
+            date(e).compareTo(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month - 2,
+                    1,
+                  ),
+                ) <
+                0 &&
+            e.status == "approve",
+      )
+      .fold(0, (pre, e) => pre + int.parse(e.price!));
+
+  int get salaryLastYear => _orders
+      .where(
+        (e) =>
+            date(e).compareTo(
+                  DateTime(
+                    DateTime.now().year - 1,
+                    DateTime.now().month,
+                    1,
+                  ),
+                ) >=
+                0 &&
+            date(e).compareTo(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month,
+                    1,
+                  ),
+                ) <
+                0 &&
+            e.status == "approve",
+      )
+      .fold(0, (pre, e) => pre + int.parse(e.price!));
 
   late ProductDetail _detail;
   ProductDetail get detail => _detail;
@@ -97,13 +239,16 @@ class ProductController extends GetxController {
 
   Future<void> updateOrder({
     required Order order,
-    bool isApprove = true,
+    required String status,
+    // approve
+    // decline
+    //outDate
   }) async {
     final body = {
       "id": int.parse(order.id!),
       "idUser": int.parse(order.idUser!),
       "price": order.price,
-      "status": isApprove ? "approve" : "decline",
+      "status": status,
       "date": order.date,
     };
     final http.Response response = await http.post(

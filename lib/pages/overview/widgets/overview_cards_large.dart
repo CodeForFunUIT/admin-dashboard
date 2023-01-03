@@ -22,8 +22,8 @@ class OverviewCardsLargeScreen extends StatelessWidget {
           ),
           SizedBox(width: width / 64),
           InfoCard(
-            title: "Order delivered",
-            value: "0",
+            title: "Order out date",
+            value: controller.lengthOrderOutDate.toString(),
             topColor: Colors.lightGreen,
             onTap: () {},
           ),
