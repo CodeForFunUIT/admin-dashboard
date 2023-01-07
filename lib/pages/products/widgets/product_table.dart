@@ -118,7 +118,7 @@ class ProductTable extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.redAccent,
             fixedSize: Size(
-              MediaQuery.of(context).size.width * 0.06,
+              MediaQuery.of(context).size.width * 0.08,
               32,
             ),
           ),

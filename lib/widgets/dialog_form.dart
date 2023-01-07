@@ -154,32 +154,33 @@ class FormRam extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 200),
+              const SizedBox(height: 100),
               Row(
                 children: [
                   const Spacer(),
-                  Expanded(
-                    flex: 3,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueAccent,
-                      ),
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          Loading.startLoading(context);
-                          await productController.updateProduct(
-                            detail,
-                            idProductType,
-                            idTradeMark,
-                          );
-                          Loading.stopLoading();
-                          CustomSnackBar.showCustomSnackBar(
-                            text: 'Update successfull',
-                            color: Colors.green,
-                          );
-                        }
-                      },
-                      child: const CustomText(text: 'Update'),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                      fixedSize: const Size(100, 40),
+                    ),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        Loading.startLoading(context);
+                        await productController.updateProduct(
+                          detail,
+                          idProductType,
+                          idTradeMark,
+                        );
+                        Loading.stopLoading();
+                        CustomSnackBar.showCustomSnackBar(
+                          text: 'Update successfull',
+                          color: Colors.green,
+                        );
+                      }
+                    },
+                    child: const CustomText(
+                      text: 'Update',
+                      color: Colors.white,
                     ),
                   ),
                 ],
@@ -310,14 +311,14 @@ class FormCpu extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 200),
+              const SizedBox(height: 100),
               Row(
                 children: [
                   const Spacer(),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
-                      fixedSize: const Size(80, 40),
+                      fixedSize: const Size(100, 40),
                     ),
                     onPressed: () async {
                       if (_itemKey.currentState!.validate()) {
@@ -335,7 +336,7 @@ class FormCpu extends StatelessWidget {
                       }
                     },
                     child: const CustomText(
-                      text: 'Update Enter',
+                      text: 'Update',
                       color: Colors.white,
                     ),
                   ),
@@ -500,14 +501,14 @@ class FormLaptop extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 200),
+                const SizedBox(height: 100),
                 Row(
                   children: [
                     const Spacer(),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent,
-                        fixedSize: const Size(80, 40),
+                        fixedSize: const Size(100, 40),
                       ),
                       onPressed: () async {
                         if (_itemKey.currentState!.validate()) {
