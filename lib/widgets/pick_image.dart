@@ -86,7 +86,7 @@ class PickImageState extends State<PickImage> {
               .convert(reader.result.toString().split(",").last);
           selectedFile = webImage;
           widget.callBack(selectedFile, files[0].name);
-          print(files[0].name);
+          // print(selectedFile);
         });
       });
       reader.readAsDataUrl(file);

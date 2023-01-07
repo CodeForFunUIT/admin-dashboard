@@ -8,7 +8,12 @@ class Link {
   static const String addRam = '$domain/source/admin/addRam.php';
   static const String addCpu = '$domain/source/admin/addCpu.php';
   static const String addLaptop = '$domain/source/admin/addLaptop.php';
+
+  static const String updateRam = '$domain/source/admin/updateRam.php';
+  static const String updateCpu = '$domain/source/admin/updateCPU.php';
+  static const String updateLaptop = '$domain/source/admin/updateLapTop.php';
   static const String login = '$domain/source/admin/login.php';
   static const String getOrder = '$domain/source/getOrder.php';
+  static const String getOrderDetail = '$domain/source/getOrderDetail.php';
   static const String updateOrder = '$domain/source/admin/updateOrder.php';
 }

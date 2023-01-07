@@ -4,7 +4,9 @@ import 'package:flutter_web_dashbard/constants/controllers.dart';
 import 'package:flutter_web_dashbard/constants/style.dart';
 import 'package:flutter_web_dashbard/controllers/product_controller.dart';
 import 'package:flutter_web_dashbard/widgets/custom_text.dart';
+import 'package:flutter_web_dashbard/widgets/dialog_order_detail.dart';
 import 'package:flutter_web_dashbard/widgets/loading.dart';
+import 'package:flutter_web_dashbard/widgets/snack_bar.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -74,7 +76,22 @@ class OrderTable extends StatelessWidget {
                   (index) => DataRow(
                     cells: [
                       DataCell(CustomText(text: '$index')),
-                      DataCell(CustomText(text: controller.orders[index].id)),
+                      DataCell(
+                        InkWell(
+                          onTap: () {
+                            Get.dialog(
+                              DialogOrderDetail(
+                                idOrder:
+                                    int.parse(controller.orders[index].id!),
+                              ),
+                            );
+                          },
+                          child: CustomText(
+                            text: controller.orders[index].id,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
                       DataCell(
                         CustomText(text: controller.orders[index].idUser),
                       ),
@@ -116,22 +133,13 @@ class OrderTable extends StatelessWidget {
                                                 : "approve",
                                       );
                                       Loading.stopLoading();
-
-                                      final snackBar = GetSnackBar(
-                                        backgroundColor:
-                                            Colors.green.withOpacity(.6),
-                                        messageText: Center(
-                                          child: CustomText(
-                                            text: controller
-                                                        .orders[index].status ==
-                                                    "approve"
-                                                ? "Update status order to outDate!"
-                                                : "Update status order to approve!",
-                                          ),
-                                        ),
-                                        duration: const Duration(seconds: 2),
+                                      CustomSnackBar.showCustomSnackBar(
+                                        text: controller.orders[index].status ==
+                                                "approve"
+                                            ? "Update status order to outDate!"
+                                            : "Update status order to approve!",
+                                        color: Colors.green,
                                       );
-                                      Get.showSnackbar(snackBar);
                                     },
                               style: OutlinedButton.styleFrom(
                                 side: BorderSide(

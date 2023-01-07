@@ -1,53 +1,43 @@
 class OrderDetail {
   OrderDetail({
     this.id,
-    this.idUser,
+    this.idOrder,
     this.idProduct,
     this.number,
-    this.name,
+    this.nameProduct,
     this.price,
-    this.date,
-    this.status,
   });
 
   String? id;
-  String? name;
+  String? idOrder;
+  String? nameProduct;
   String? price;
-  String? idUser;
   String? idProduct;
   String? number;
-  String? date;
-  String? status;
 
   factory OrderDetail.fromJson(Map<String, dynamic> json) => OrderDetail(
         id: json["id"],
-        idUser: json["idUser"],
+        idOrder: json["idOrder"],
         idProduct: json["idProduct"],
         number: json["number"],
-        name: json["name"],
+        nameProduct: json["nameProduct"],
         price: json["price"],
-        date: json["date"],
-        status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "idUser": idUser,
+        "idOrder": idOrder,
         "idProduct": idProduct,
         "number": number,
-        "name": name,
+        "nameProduct": nameProduct,
         "price": price,
-        "date": date,
-        "status": status,
       };
   factory OrderDetail.copyWith(OrderDetail? orderDetail) => OrderDetail(
         id: orderDetail?.id,
-        idUser: orderDetail?.idUser,
+        idOrder: orderDetail?.idOrder,
         idProduct: orderDetail?.idProduct,
         number: orderDetail?.number,
-        name: orderDetail?.name,
+        nameProduct: orderDetail?.nameProduct,
         price: orderDetail?.price,
-        date: orderDetail?.date,
-        status: orderDetail?.status,
       );
 }

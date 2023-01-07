@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_dashbard/constants/style.dart';
 import 'package:flutter_web_dashbard/widgets/custom_text.dart';
+import 'package:flutter_web_dashbard/widgets/dialog_form.dart';
 
 class TextFieldCustom extends StatelessWidget {
   final bool isId;
@@ -28,7 +29,8 @@ class TextFieldCustom extends StatelessWidget {
         children: [
           CustomText(text: titleText),
           const SizedBox(height: 16),
-          TextField(
+          TextFormField(
+            validator: validateEmpty,
             readOnly: isId,
             onChanged: callBack,
             controller: TextEditingController()..text = text ?? '',

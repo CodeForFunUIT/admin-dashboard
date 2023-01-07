@@ -4,6 +4,7 @@ import 'package:flutter_web_dashbard/constants/style.dart';
 import 'package:flutter_web_dashbard/routing/routes.dart';
 import 'package:flutter_web_dashbard/widgets/custom_text.dart';
 import 'package:flutter_web_dashbard/widgets/loading.dart';
+import 'package:flutter_web_dashbard/widgets/snack_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -80,9 +81,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
+                const SizedBox(height: 15),
                 TextFormField(
                   controller: username,
                   decoration: InputDecoration(
@@ -112,26 +111,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                 const SizedBox(
                   height: 15,
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Row(
-                //       children: [
-                //         Checkbox(value: true, onChanged: (value) {}),
-                //         const CustomText(
-                //           text: "Remeber Me",
-                //         ),
-                //       ],
-                //     ),
-                //     CustomText(
-                //       text: "Forgot password?",
-                //       color: active,
-                //     )
-                //   ],
-                // ),
-                // const SizedBox(
-                //   height: 15,
-                // ),
                 InkWell(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
@@ -140,30 +119,15 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       Loading.stopLoading();
                       if (authController.admin != null) {
                         Get.offAllNamed(rootRoute);
-
-                        final snackBar = GetSnackBar(
-                          backgroundColor: Colors.green.withOpacity(.6),
-                          messageText: const Center(
-                            child: CustomText(
-                              text: "Login Success!",
-                              color: Colors.white,
-                            ),
-                          ),
-                          duration: const Duration(seconds: 2),
+                        CustomSnackBar.showCustomSnackBar(
+                          text: 'Login Success',
+                          color: Colors.green,
                         );
-                        Get.showSnackbar(snackBar);
                       } else {
-                        final snackBar = GetSnackBar(
-                          backgroundColor: Colors.red.withOpacity(.6),
-                          messageText: const Center(
-                            child: CustomText(
-                              text: "Login Failed!",
-                              color: Colors.white,
-                            ),
-                          ),
-                          duration: const Duration(seconds: 2),
+                        CustomSnackBar.showCustomSnackBar(
+                          text: 'Login Failed',
+                          color: Colors.red,
                         );
-                        Get.showSnackbar(snackBar);
                       }
                     }
                   },
@@ -189,12 +153,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     const Text("Do not have admin credentials? "),
                     InkWell(
                       onTap: () {
-                        final snackBar = GetSnackBar(
-                          backgroundColor: Colors.red.withOpacity(.6),
-                          message: "This feature haven't finish yet!",
-                          duration: const Duration(seconds: 2),
+                        CustomSnackBar.showCustomSnackBar(
+                          text: "This feature haven't finished yet",
+                          color: Colors.red,
                         );
-                        Get.showSnackbar(snackBar);
                       },
                       child: Text(
                         "Request Credentials! ",

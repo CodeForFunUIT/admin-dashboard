@@ -14,7 +14,7 @@ class DropTypeProduct extends StatefulWidget {
 }
 
 class DropTypeProductState extends State<DropTypeProduct> {
-  List<String> items = ['Ram', 'Cpu', 'Laptop', 'Hard Drive'];
+  List<String> items = ['Ram', 'Cpu', 'Laptop'];
   String selected = 'Ram';
 
   @override
@@ -47,9 +47,7 @@ class DropTypeProductState extends State<DropTypeProduct> {
           case 'Laptop':
             widget.callBack(6);
             break;
-          case 'Hard Drive':
-            widget.callBack(3);
-            break;
+
           default:
         }
         setState(() {

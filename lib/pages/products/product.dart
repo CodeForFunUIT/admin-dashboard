@@ -25,6 +25,7 @@ class ProductsPage extends StatelessWidget {
                   weight: FontWeight.bold,
                 ),
               ),
+              // const Spacer(),
             ],
           ),
         ),

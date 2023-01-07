@@ -22,9 +22,7 @@ class SideMenu extends StatelessWidget {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const SizedBox(
-                  height: 40,
-                ),
+                const SizedBox(height: 40),
                 Row(
                   children: [
                     SizedBox(width: width / 48),
@@ -43,9 +41,7 @@ class SideMenu extends StatelessWidget {
                     SizedBox(width: width / 48),
                   ],
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 30),
               ],
             ),
           Divider(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web_dashbard/widgets/custom_text.dart';
 
 class DropTrademark extends StatefulWidget {
-  final void Function(int id) callBack;
+  final void Function(int id, String name) callBack;
   final List<String> items;
   const DropTrademark({
     super.key,
@@ -46,28 +46,28 @@ class DropTrademarkState extends State<DropTrademark> {
       onChanged: (item) {
         switch (item) {
           case 'kingSton':
-            widget.callBack(1);
+            widget.callBack(1, 'kingSton');
             break;
           case 'crucial':
-            widget.callBack(2);
+            widget.callBack(2, 'crucial');
             break;
           case 'kingMax':
-            widget.callBack(3);
+            widget.callBack(3, 'kingMax');
             break;
           case 'HP':
-            widget.callBack(4);
+            widget.callBack(4, 'HP');
             break;
           case 'Lenovo':
-            widget.callBack(5);
+            widget.callBack(5, 'Lenovo');
             break;
           case 'Dell':
-            widget.callBack(6);
+            widget.callBack(6, 'Dell');
             break;
           case 'MSI':
-            widget.callBack(7);
+            widget.callBack(7, 'MSI');
             break;
           case 'Intel':
-            widget.callBack(8);
+            widget.callBack(8, 'Intel');
             break;
           default:
         }

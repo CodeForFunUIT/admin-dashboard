@@ -16,6 +16,7 @@ class ProductDetail {
     this.name,
     this.price,
     this.trademark,
+    this.idTradeMark,
     this.stock,
     this.soNhan,
     this.soLuong,
@@ -32,6 +33,7 @@ class ProductDetail {
     this.manHinh,
     this.trongLuong,
     this.cpu,
+    this.imageName,
   });
 
   String? id;
@@ -39,6 +41,7 @@ class ProductDetail {
   String? name;
   String? price;
   String? trademark;
+  String? idTradeMark;
   String? stock;
   dynamic soNhan;
   dynamic soLuong;
@@ -55,6 +58,7 @@ class ProductDetail {
   dynamic manHinh;
   dynamic trongLuong;
   String? cpu;
+  String? imageName;
 
   factory ProductDetail.fromJson(Map<String, dynamic> json) => ProductDetail(
         id: json["id"],
@@ -126,4 +130,9 @@ class ProductDetail {
         manHinh: detail.manHinh ?? manHinh,
         trongLuong: detail.trongLuong ?? trongLuong,
       );
+
+  @override
+  String toString() {
+    return "id: $id image: $image name: $name price: $price trademark: $trademark,idTradeMark: $idTradeMark,stock: $stock,soNhan: $soNhan,soLuong: $soLuong,xungNhipCoBan: $xungNhipCoBan,xungNhipToiDa: $xungNhipToiDa,theHe: $theHe,doHoa: $doHoa,tienTrinh: $tienTrinh,ram: $ram,chuanRam: $chuanRam,bus: $bus,ramDetail: $ramDetail,oCung: $oCung,manHinh: $manHinh,trongLuong: $trongLuong,cpu: $cpu,imageName: $imageName";
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web_dashbard/constants/controllers.dart';
 import 'package:flutter_web_dashbard/constants/style.dart';
+import 'package:flutter_web_dashbard/controllers/product_controller.dart';
 import 'package:flutter_web_dashbard/models/product.dart';
 import 'package:flutter_web_dashbard/models/productDetail.dart';
 import 'package:flutter_web_dashbard/widgets/custom_text.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_web_dashbard/widgets/drop_trademark.dart';
 import 'package:flutter_web_dashbard/widgets/drop_type_product.dart';
 import 'package:flutter_web_dashbard/widgets/loading.dart';
 import 'package:flutter_web_dashbard/widgets/pick_image.dart';
+import 'package:flutter_web_dashbard/widgets/snack_bar.dart';
 import 'package:flutter_web_dashbard/widgets/text_field.dart';
 import 'package:get/get.dart';
 
@@ -84,72 +87,79 @@ class FormRam extends StatelessWidget {
   ProductDetail detail = ProductDetail();
   Product product = Product();
   List<int> list = [];
-  String imageName = '';
-  int idTrademark = 0;
+  final _itemKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        GroupTextField(
-          callBack: (name, stock, price) {
-            detail.name = name;
-            detail.stock = stock;
-            detail.price = price;
-          },
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        Row(
-          children: [
-            Expanded(
-              child: DropTrademark(
-                callBack: (id) => idTrademark = id,
-                items: const ['kingSton', 'crucial', 'kingMax'],
+    return Form(
+      key: _itemKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GroupTextField(
+            callBackName: (name) => detail.name = name,
+            callBackStock: (stock) => detail.stock = stock,
+            callBackPrice: (price) => detail.price = price,
+          ),
+          const SizedBox(height: DialogFormAdd.height),
+          Row(
+            children: [
+              Expanded(
+                child: DropTrademark(
+                  callBack: (id, name) {
+                    detail.idTradeMark = id.toString();
+                    detail.trademark = name;
+                  },
+                  items: const ['kingSton', 'crucial', 'kingMax'],
+                ),
               ),
-            ),
-            const SizedBox(width: DialogFormAdd.width),
-            TextFieldCustom(
-              titleText: 'Ram',
-              hintText: 'Nhập Ram (BG)',
-              label: 'ram (GB)',
-              callBack: (data) => detail.ram = data,
-            ),
-          ],
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        Row(
-          children: [
-            TextFieldCustom(
-              titleText: 'Chuẩn ram',
-              hintText: 'Nhập chuẩn ram',
-              label: 'chuẩn ram',
-              callBack: (data) => detail.chuanRam = data,
-            ),
-            const SizedBox(width: DialogFormAdd.width),
-            TextFieldCustom(
-              titleText: 'Bus ram',
-              hintText: 'Nhập bus ram',
-              label: 'bus ram',
-              callBack: (data) => detail.bus = data,
-            ),
-          ],
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        PickImage(
-          callBack: (data, name) {
-            list = [...data!];
-            imageName = name;
-          },
-        ),
-        ButtonAdd(
-          detail: detail,
-          list: list,
-          imageName: imageName,
-          idProductType: 2,
-          idTradeMark: idTrademark,
-        ),
-      ],
+              const SizedBox(width: DialogFormAdd.width),
+              TextFieldCustom(
+                titleText: 'Ram',
+                hintText: 'Enter Ram (BG)',
+                label: 'ram (GB)',
+                callBack: (data) => detail.ram = data,
+              ),
+            ],
+          ),
+          const SizedBox(height: DialogFormAdd.height),
+          Row(
+            children: [
+              TextFieldCustom(
+                titleText: 'Standard ram',
+                hintText: 'Enter Standard ram',
+                label: 'Standard ram',
+                callBack: (data) => detail.chuanRam = data,
+              ),
+              const SizedBox(width: DialogFormAdd.width),
+              TextFieldCustom(
+                titleText: 'Bus ram',
+                hintText: 'Enter bus ram',
+                label: 'bus ram',
+                callBack: (data) => detail.bus = data,
+              ),
+            ],
+          ),
+          const SizedBox(height: DialogFormAdd.height),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              PickImage(
+                callBack: (data, name) {
+                  list.addAll(data!);
+                  detail.imageName = name;
+                },
+              ),
+            ],
+          ),
+          ButtonAdd(
+            itemKey: _itemKey,
+            detail: detail,
+            list: list,
+            idProductType: 2,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -160,250 +170,239 @@ class FormCpu extends StatelessWidget {
   ProductDetail detail = ProductDetail();
   Product product = Product();
   List<int> list = [];
-  String imageName = '';
-  int idTrademark = 0;
+  final _itemKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        GroupTextField(
-          callBack: (name, stock, price) {
-            detail.name = name;
-            detail.stock = stock;
-            detail.price = price;
-          },
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        Row(
-          children: [
-            Expanded(
-              child: DropTrademark(
-                callBack: (id) => idTrademark = id,
-                items: const ['Intel'],
+    return Form(
+      key: _itemKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GroupTextField(
+            callBackName: (name) => detail.name = name,
+            callBackStock: (stock) => detail.stock = stock,
+            callBackPrice: (price) => detail.price = price,
+          ),
+          const SizedBox(height: DialogFormAdd.height),
+          Row(
+            children: [
+              Expanded(
+                child: DropTrademark(
+                  callBack: (id, name) {
+                    detail.idTradeMark = id.toString();
+                    detail.trademark = name;
+                  },
+                  items: const ['Intel'],
+                ),
               ),
-            ),
-            const SizedBox(width: DialogFormAdd.width),
-            TextFieldCustom(
-              titleText: 'Đồ họa ',
-              hintText: 'Nhập card đồ họa',
-              label: 'Đồ họa',
-              callBack: (data) => detail.doHoa = data,
-            ),
-          ],
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        Row(
-          children: [
-            TextFieldCustom(
-              titleText: 'Xung nhịp cơ bản',
-              hintText: 'Nhập xung nhịp cơ bản',
-              label: 'Xung nhịp cơ bản',
-              callBack: (data) => detail.xungNhipCoBan = data,
-            ),
-            const SizedBox(width: DialogFormAdd.width),
-            TextFieldCustom(
-              titleText: 'Xung nhịp tối đa',
-              hintText: 'Nhập xung nhịp tối đa',
-              label: 'Xung nhịp tối đa',
-              callBack: (data) => detail.xungNhipToiDa = data,
-            ),
-          ],
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        Row(
-          children: [
-            TextFieldCustom(
-              titleText: 'Thế hệ ',
-              hintText: 'Nhập thế hệ',
-              label: 'Thế hệ',
-              callBack: (data) => detail.theHe = data,
-            ),
-            const SizedBox(width: DialogFormAdd.width),
-            TextFieldCustom(
-              titleText: 'Tiến trình',
-              hintText: 'Nhập tiến trình',
-              label: 'Tiến trình',
-              callBack: (data) => detail.tienTrinh = data,
-            ),
-          ],
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        Row(
-          children: [
-            TextFieldCustom(
-              titleText: 'Số nhân',
-              hintText: 'Nhập số nhân',
-              label: 'Số nhân',
-              callBack: (data) => detail.soNhan = data,
-            ),
-            const SizedBox(width: DialogFormAdd.width),
-            TextFieldCustom(
-              titleText: 'Số luồng',
-              hintText: 'Nhập số luồng',
-              label: 'Số luồng',
-              callBack: (data) => detail.soLuong = data,
-            ),
-          ],
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        PickImage(
-          callBack: (data, name) {
-            list = [...data!];
-            imageName = name;
-          },
-        ),
-        ButtonAdd(
-          detail: detail,
-          list: list,
-          imageName: imageName,
-          idProductType: 1,
-          idTradeMark: idTrademark,
-        ),
-      ],
+              const SizedBox(width: DialogFormAdd.width),
+              TextFieldCustom(
+                titleText: 'Card',
+                hintText: 'Enter Card',
+                label: 'Card',
+                callBack: (data) => detail.doHoa = data,
+              ),
+            ],
+          ),
+          const SizedBox(height: DialogFormAdd.height),
+          Row(
+            children: [
+              TextFieldCustom(
+                titleText: 'base clock',
+                hintText: 'Enter base clock',
+                label: 'base clock',
+                callBack: (data) => detail.xungNhipCoBan = data,
+              ),
+              const SizedBox(width: DialogFormAdd.width),
+              TextFieldCustom(
+                titleText: 'max clock',
+                hintText: 'Enter max clock',
+                label: 'max clock',
+                callBack: (data) => detail.xungNhipToiDa = data,
+              ),
+            ],
+          ),
+          const SizedBox(height: DialogFormAdd.height),
+          Row(
+            children: [
+              TextFieldCustom(
+                titleText: 'generation chip ',
+                hintText: 'Enter generation chip',
+                label: 'generation chip',
+                callBack: (data) => detail.theHe = data,
+              ),
+              const SizedBox(width: DialogFormAdd.width),
+              TextFieldCustom(
+                titleText: 'Process',
+                hintText: 'Enter Process',
+                label: 'Process',
+                callBack: (data) => detail.tienTrinh = data,
+              ),
+            ],
+          ),
+          const SizedBox(height: DialogFormAdd.height),
+          Row(
+            children: [
+              TextFieldCustom(
+                titleText: 'chip multiplier',
+                hintText: 'Enter chip multiplier',
+                label: 'chip multiplier',
+                callBack: (data) => detail.soNhan = data,
+              ),
+              const SizedBox(width: DialogFormAdd.width),
+              TextFieldCustom(
+                titleText: 'Threads',
+                hintText: 'Enter threads',
+                label: 'Threads',
+                callBack: (data) => detail.soLuong = data,
+              ),
+            ],
+          ),
+          const SizedBox(height: DialogFormAdd.height),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              PickImage(
+                callBack: (data, name) {
+                  list.addAll(data!);
+                  detail.imageName = name;
+                },
+              ),
+            ],
+          ),
+          ButtonAdd(
+            itemKey: _itemKey,
+            detail: detail,
+            list: list,
+            idProductType: 1,
+          ),
+        ],
+      ),
     );
   }
 }
-
-// class FormHardDrive extends StatelessWidget {
-//   const FormHardDrive({
-//     super.key,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       mainAxisSize: MainAxisSize.min,
-//       children: [
-//         Row(
-//           children: const [
-//             TextFieldCustom(titleText: ,),
-//             TextFieldCustom(),
-//           ],
-//         ),
-//         const SizedBox(height: DialogFormAdd.height),
-//         Row(
-//           children: const [
-//             TextFieldCustom(),
-//             TextFieldCustom(),
-//           ],
-//         ),
-//         const SizedBox(height: DialogFormAdd.height),
-//         Row(
-//           children: const [
-//             TextFieldCustom(),
-//             TextFieldCustom(),
-//           ],
-//         ),
-//       ],
-//     );
-//   }
-// }
 
 class FormLaptop extends StatelessWidget {
   FormLaptop({super.key});
 
   ProductDetail detail = ProductDetail();
   Product product = Product();
-  List<int> list = [];
-  String imageName = '';
-  int idTrademark = 0;
-
+  final List<int> list = [];
+  final _itemKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        GroupTextField(
-          callBack: (name, stock, price) {
-            detail.name = name;
-            detail.stock = stock;
-            detail.price = price;
-          },
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        Row(
-          children: [
-            Expanded(
-              child: DropTrademark(
-                callBack: (id) => idTrademark = id,
-                items: const ['HP', 'Lenovo', 'Dell', 'MSI'],
+    return Form(
+      key: _itemKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GroupTextField(
+            callBackName: (name) => detail.name = name,
+            callBackStock: (stock) => detail.stock = stock,
+            callBackPrice: (price) => detail.price = price,
+          ),
+          const SizedBox(height: DialogFormAdd.height),
+          Row(
+            children: [
+              Expanded(
+                child: DropTrademark(
+                  callBack: (id, name) {
+                    detail.idTradeMark = id.toString();
+                    detail.trademark = name;
+                  },
+                  items: const ['HP', 'Lenovo', 'Dell', 'MSI'],
+                ),
               ),
-            ),
-            const SizedBox(width: DialogFormAdd.width),
-            TextFieldCustom(
-              titleText: 'thông tin ram',
-              hintText: 'Nhập thông tin ram',
-              label: 'Ram',
-              callBack: (data) => detail.ramDetail = data,
-            ),
-          ],
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        Row(
-          children: [
-            TextFieldCustom(
-              titleText: 'CPU',
-              hintText: 'Nhập CPU',
-              label: 'CPU',
-              callBack: (data) => detail.cpu = data,
-            ),
-            const SizedBox(width: DialogFormAdd.width),
-            TextFieldCustom(
-              titleText: 'Màn hình',
-              hintText: 'Nhập thông tin màn hình',
-              label: 'Màn hình',
-              callBack: (data) => detail.manHinh = data,
-            ),
-          ],
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        Row(
-          children: [
-            TextFieldCustom(
-              titleText: 'Ổ cứng',
-              hintText: 'Nhập ổ cứng',
-              label: 'Ổ cứng',
-              callBack: (data) => detail.oCung = data,
-            ),
-            const SizedBox(width: DialogFormAdd.width),
-            Expanded(
-              child: PickImage(
+              const SizedBox(width: DialogFormAdd.width),
+              TextFieldCustom(
+                titleText: 'Detail Ram',
+                hintText: 'Enter Detail Ram',
+                label: 'Detail Ram',
+                callBack: (data) => detail.ramDetail = data,
+              ),
+            ],
+          ),
+          const SizedBox(height: DialogFormAdd.height),
+          Row(
+            children: [
+              TextFieldCustom(
+                titleText: 'CPU',
+                hintText: 'Enter CPU',
+                label: 'CPU',
+                callBack: (data) => detail.cpu = data,
+              ),
+              const SizedBox(width: DialogFormAdd.width),
+              TextFieldCustom(
+                titleText: 'detail screen',
+                hintText: 'Enter detail screen',
+                label: 'detail screen',
+                callBack: (data) => detail.manHinh = data,
+              ),
+            ],
+          ),
+          const SizedBox(height: DialogFormAdd.height),
+          Row(
+            children: [
+              TextFieldCustom(
+                titleText: 'hard drive',
+                hintText: 'Enter hard drive',
+                label: 'hard drive',
+                callBack: (data) => detail.oCung = data,
+              ),
+              const SizedBox(width: DialogFormAdd.width),
+              TextFieldCustom(
+                titleText: 'Weight',
+                hintText: 'Enter weight',
+                label: 'Weight (kg)',
+                callBack: (data) => detail.trongLuong = data,
+              ),
+            ],
+          ),
+          const SizedBox(height: DialogFormAdd.height),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              PickImage(
                 callBack: (data, name) {
-                  list = [...data!];
-                  imageName = name;
+                  list.addAll(data!);
+                  detail.imageName = name;
                 },
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: DialogFormAdd.height),
-        ButtonAdd(
-          detail: detail,
-          list: list,
-          imageName: imageName,
-          idProductType: 6,
-          idTradeMark: 1,
-        ),
-      ],
+            ],
+          ),
+          const SizedBox(height: DialogFormAdd.height),
+          ButtonAdd(
+            detail: detail,
+            itemKey: _itemKey,
+            list: list,
+            idProductType: 6,
+          ),
+        ],
+      ),
     );
   }
 }
 
-// String getIdTradeMark(String name){
-//   switch (name) {
-//     case 'value':
-
-//       break;
-//     default:
-//   }
-// }
 class GroupTextField extends StatelessWidget {
-  final void Function(String? name, String? stock, String? price) callBack;
+  final void Function(String? name) callBackName;
+  final void Function(String? name) callBackStock;
+  final void Function(String? name) callBackPrice;
+  final String? id;
+  final double? width;
 
+  final String? name;
+  final String? stock;
+  final String? price;
   const GroupTextField({
     super.key,
-    required this.callBack,
+    required this.callBackName,
+    required this.callBackStock,
+    required this.callBackPrice,
+    this.id,
+    this.width,
+    this.name,
+    this.stock,
+    this.price,
   });
 
   @override
@@ -412,17 +411,18 @@ class GroupTextField extends StatelessWidget {
       children: [
         Row(
           children: [
-            const TextFieldCustom(
-              titleText: 'id',
-              text: 'id',
+            TextFieldCustom(
+              titleText: 'ID',
+              text: id ?? 'id',
               isId: true,
             ),
-            const SizedBox(width: DialogFormAdd.width),
+            SizedBox(width: width ?? DialogFormAdd.width),
             TextFieldCustom(
-              titleText: 'Tên sản phẩm',
-              hintText: 'Nhập tên sản phẩm',
-              label: 'tên sản phẩm',
-              callBack: (data) => callBack(data, '', ''),
+              titleText: 'Name Product',
+              hintText: 'Enter Name Product',
+              label: 'Name Product',
+              text: name,
+              callBack: (data) => callBackName(data),
             ),
           ],
         ),
@@ -430,17 +430,19 @@ class GroupTextField extends StatelessWidget {
         Row(
           children: [
             TextFieldCustom(
-              titleText: 'Số lượng',
-              hintText: 'Nhập số lượng',
-              label: 'số lượng',
-              callBack: (data) => callBack('', data, ''),
+              titleText: 'Stock',
+              hintText: 'Enter Stock',
+              label: 'Stock',
+              text: stock,
+              callBack: (data) => callBackStock(data),
             ),
-            const SizedBox(width: DialogFormAdd.width),
+            SizedBox(width: width ?? DialogFormAdd.width),
             TextFieldCustom(
-              titleText: 'Giá',
-              hintText: 'Nhập giá',
-              label: 'giá',
-              callBack: (data) => callBack('', '', data),
+              titleText: 'Price',
+              hintText: 'Enter price',
+              label: 'price',
+              text: price,
+              callBack: (data) => callBackPrice(data),
             ),
           ],
         ),
@@ -451,17 +453,15 @@ class GroupTextField extends StatelessWidget {
 
 class ButtonAdd extends StatelessWidget {
   final ProductDetail detail;
-  final List<int>? list;
-  final String imageName;
-  final int idTradeMark;
+  final List<int> list;
   final int idProductType;
+  final GlobalKey<FormState> itemKey;
   const ButtonAdd({
     super.key,
     required this.detail,
     required this.list,
-    required this.imageName,
     required this.idProductType,
-    required this.idTradeMark,
+    required this.itemKey,
   });
 
   @override
@@ -473,36 +473,45 @@ class ButtonAdd extends StatelessWidget {
         ),
         Expanded(
           flex: 1,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
-              minimumSize: const Size(30, 50),
-            ),
-            onPressed: () async {
-              Get.dialog(
-                const Dialog(
-                  backgroundColor: Colors.transparent,
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-              );
-              // Loading.startLoading(context);
-              print(detail);
-              print(idProductType);
-              print(idTradeMark);
-              print(list);
-              print(imageName);
-              // await productController.addProduct(
-              //   detail: detail,
-              //   idProductType: idProductType,
-              //   idTradeMark: idTradeMark,
-              //   image: list,
-              //   imageName: imageName,
-              // );
-              Loading.stopLoading();
-            },
-            child: const CustomText(
-              text: 'Add',
-              color: Colors.white,
+          child: GetBuilder<ProductController>(
+            builder: (controller) => ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                minimumSize: const Size(30, 50),
+              ),
+              onPressed: () async {
+                if (itemKey.currentState!.validate()) {
+                  Get.dialog(
+                    const Dialog(
+                      backgroundColor: Colors.transparent,
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                  );
+                  // Loading.startLoading(context);
+                  await productController.addProduct(
+                    detail: detail,
+                    idProductType: idProductType,
+                    image: list,
+                  );
+                  Loading.stopLoading();
+                  if (controller.statusAddProduct) {
+                    Get.back();
+                    CustomSnackBar.showCustomSnackBar(
+                      text: 'Add Produc successs',
+                      color: Colors.green,
+                    );
+                  } else {
+                    CustomSnackBar.showCustomSnackBar(
+                      text: 'Add Produc failed',
+                      color: Colors.red,
+                    );
+                  }
+                }
+              },
+              child: const CustomText(
+                text: 'Add',
+                color: Colors.white,
+              ),
             ),
           ),
         ),
