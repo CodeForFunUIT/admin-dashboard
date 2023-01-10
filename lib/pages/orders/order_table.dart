@@ -55,15 +55,15 @@ class OrderTable extends StatelessWidget {
                     size: ColumnSize.S,
                   ),
                   DataColumn2(
-                    label: Text('Status'),
-                    size: ColumnSize.S,
-                  ),
-                  DataColumn2(
                     label: Text('Price'),
                     size: ColumnSize.S,
                   ),
                   DataColumn2(
                     label: Text('Date'),
+                    size: ColumnSize.S,
+                  ),
+                  DataColumn2(
+                    label: Text('Status'),
                     size: ColumnSize.S,
                   ),
                   DataColumn2(
