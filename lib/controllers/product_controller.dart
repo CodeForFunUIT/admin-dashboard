@@ -126,6 +126,50 @@ class ProductController extends GetxController {
             e.status == "approve",
       )
       .fold(0, (pre, e) => pre + int.parse(e.price!));
+  int get salaryLast30Days => _orders
+      .where(
+        (e) =>
+            date(e).compareTo(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month - 1,
+                    DateTime.now().day,
+                  ),
+                ) >=
+                0 &&
+            date(e).compareTo(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month,
+                    DateTime.now().day + 1,
+                  ),
+                ) <
+                0 &&
+            e.status == "approve",
+      )
+      .fold(0, (pre, e) => pre + int.parse(e.price!));
+  int get salaryLast12Months => _orders
+      .where(
+        (e) =>
+            date(e).compareTo(
+                  DateTime(
+                    DateTime.now().year - 1,
+                    DateTime.now().month,
+                    DateTime.now().day,
+                  ),
+                ) >=
+                0 &&
+            date(e).compareTo(
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month,
+                    DateTime.now().day + 1,
+                  ),
+                ) <
+                0 &&
+            e.status == "approve",
+      )
+      .fold(0, (pre, e) => pre + int.parse(e.price!));
   int get salaryLast2Month => _orders
       .where(
         (e) =>

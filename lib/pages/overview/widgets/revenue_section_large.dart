@@ -77,11 +77,11 @@ class RevenueSectionLarge extends StatelessWidget {
                     children: [
                       RevenueInfo(
                         title: "Last 30 days",
-                        amount: controller.salaryLastMonth.toVND(),
+                        amount: controller.salaryLast30Days.toVND(),
                       ),
                       RevenueInfo(
                         title: "Last 12 months",
-                        amount: controller.salaryLastYear.toVND(),
+                        amount: controller.salaryLast12Months.toVND(),
                       ),
                     ],
                   ),
